@@ -1,0 +1,53 @@
+
+" Environment
+set directory=$XDG_CACHE_HOME/vim,~/,/tmp
+set backupdir=$XDG_CACHE_HOME/vim,~/,/tmp
+set viminfo+=n$XDG_CACHE_HOME/vim/viminfo
+set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
+let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
+
+
+" Indention Options
+set autoindent		" New lines inherit the indentation of previous lines
+" set expandtab		" Convert tabs to spaces
+filetype plugin indent on
+set shiftround
+set shiftwidth=3
+set tabstop=3
+
+" Search Options
+set hlsearch
+set ignorecase
+set incsearch
+set smartcase
+
+" Performance options
+set complete-=i
+set lazyredraw
+
+" Text Rendering Options
+set display+=lastline
+set encoding=utf-8
+set linebreak
+syntax enable
+" set wrap
+
+" User Interface Options
+set laststatus=2
+set ruler
+set wildmenu
+" set tabpagemax
+colorscheme industry
+set cursorline
+set number relativenumber
+set mouse=a
+set title
+set background=dark
+
+
+" Miscellaneous Options
+set autoread
+set backspace=indent,eol,start
+" set shell
+set spell
+set spell spelllang=en_gb

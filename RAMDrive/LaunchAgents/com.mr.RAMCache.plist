@@ -5,7 +5,7 @@
    <key>Label</key>
    <string>com.mr.RAMCache</string>
    <key>ProgramArguments</key>
-	<array><string>$HOME/Git/macScripts/RAMCache.sh</string></array>
+	<array><string>$HOME/Git/macConfig/bin/RAMCache.sh</string></array>
    <key>RunAtLoad</key>
    <true/>
 </dict>
