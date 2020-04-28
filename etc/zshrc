@@ -1,0 +1,18 @@
+# Correctly display UTF-8 with combining characters.
+if [ "$TERM_PROGRAM" = "Apple_Terminal" ]; then
+	setopt combiningchars
+fi
+
+disable log
+
+[ -r "/etc/zshrc_$TERM_PROGRAM" ] && . "/etc/zshrc_$TERM_PROGRAM"
+
+# XDG Environment variables
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+
+# Set vimrc's location and source it on vim start-up
+export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
+export VIMDOTDIR="$XDG_CONFIG_HOME/vim"
