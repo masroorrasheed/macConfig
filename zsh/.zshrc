@@ -1,24 +1,22 @@
 
+source $XDG_CONFIG_HOME/bin/global.sh
+source $XDG_CONFIG_HOME/bin/shortCuts
+
 # XDG Environment variables
 export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="/Volumes/RAM/cache"
+export XDG_CACHE_HOME="$HOME/.cache"
 
 [ ! -d $XDG_CONFIG_HOME ] && mkdir -p $XDG_CONFIG_HOME
 [ ! -d $XDG_CACHE_HOME ] && mkdir -p $XDG_CACHE_HOME
 
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-
-source $XDG_CONFIG_HOME/shortCuts
-
 # Set vimrc's location and source it on vim startup
-export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
+# export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
 autoload -Uz compinit promptinit colors zsh/terminfo compaudit vcs_info
 compinit
 promptinit
 colors
 compaudit
-
 
 PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{240}%1~%f%b %# ' 
 
@@ -49,21 +47,5 @@ SAVEHIST=1000
 # --------------------------------------------------
 bindkey -v
 
-#------------------------------
-# ShellFuncs
-#------------------------------
-# -- coloured manuals
-man() {
-  env \
-    LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-    LESS_TERMCAP_md=$(printf "\e[1;31m") \
-    LESS_TERMCAP_me=$(printf "\e[0m") \
-    LESS_TERMCAP_se=$(printf "\e[0m") \
-    LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-    LESS_TERMCAP_ue=$(printf "\e[0m") \
-    LESS_TERMCAP_us=$(printf "\e[1;32m") \
-    man "$@"
-}
 
-#eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
-export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/opt/python/libexec/bin:/usr/local/bin:$PATH
