@@ -19,6 +19,8 @@ brew install python
 brew install zsh
 brew install exa
 
+brew cask install amethyst
+
 info "Setting ZSH Shell, Scripts and Neovim"
 cat ${SHELL_PATH}/etc/zshrc | sudo tee -a /etc/zshenv 
 mkdir -p ${HOME}/.config
