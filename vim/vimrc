@@ -9,7 +9,7 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
 " Indention Options
 set autoindent		" New lines inherit the indentation of previous lines
-" set expandtab		" Convert tabs to spaces
+set expandtab		" Convert tabs to spaces
 filetype plugin indent on
 set shiftround
 set shiftwidth=3
@@ -30,7 +30,7 @@ set display+=lastline
 set encoding=utf-8
 set linebreak
 syntax enable
-" set wrap
+set wrap
 
 " User Interface Options
 set laststatus=2
@@ -48,6 +48,6 @@ set background=dark
 " Miscellaneous Options
 set autoread
 set backspace=indent,eol,start
-" set shell
+" set spell
 set spell
 set spell spelllang=en_gb

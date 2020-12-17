@@ -1,10 +1,10 @@
 
-alias ls='exa'
+alias ls='ls -G'
 alias l='ls -F'
 alias ll='ls -lahF'
-alias v='nvim'
-alias vi='nvim'
-alias vim='nvim'
+alias v='vim'
+alias vi='vim'
+alias vim='vim'
 
 #------------------------------
 # ShellFuncs

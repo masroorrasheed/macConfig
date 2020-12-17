@@ -47,5 +47,4 @@ SAVEHIST=1000
 # --------------------------------------------------
 bindkey -v
 
-
-export PATH=/usr/local/opt/python/libexec/bin:/usr/local/bin:$PATH
+export PATH=/opt/miniconda3/bin:$PATH
