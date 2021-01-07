@@ -47,4 +47,9 @@ SAVEHIST=1000
 # --------------------------------------------------
 bindkey -v
 
-export PATH=/opt/miniconda3/bin:$PATH
+export PATH=/opt/miniconda3/bin:/opt/homebrew/bin:$PATH
+
+# added by Snowflake SnowSQL installer v1.2
+export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
+#eval $(/opt/homebrew/bin/brew shellenv)
+

@@ -2,3 +2,5 @@ zsh/histfile
 zsh/.zcompdump
 zsh/.zsh_history
 zsh/.zsh_sessions
+nvim/plugged
+nvim/autoload
