@@ -1,11 +1,11 @@
 "###############################################################################
-"# File Name	: 	init.vim
-"# Author 	:	Masroor Rasheed
-"# Created	:	Sat 18 Apr 2020 21:10:18 BST
+"# File Name    :   init.vim
+"# Author   :   Masroor Rasheed
+"# Created  :   Sat 18 Apr 2020 21:10:18 BST
 "###############################################################################
 
 " Global Varaibles
-let vim_plug_just_installed = 0		" Initiate Setup for first time
+let vim_plug_just_installed = 0     " Initiate Setup for first time
 
 " Mode Settings for Cursor
 " 1 -> blinking block
@@ -14,38 +14,47 @@ let vim_plug_just_installed = 0		" Initiate Setup for first time
 " 4 -> solid underscore
 " 5 -> blinking vertical bar
 " 6 -> solid vertical block
-let &t_SI.="\e[5 q" 	"SI = INSERT mode
-let &t_SR.="\e[3 q"	"SR = REPLACE mode
-let &t_EI.="\e[1 q"	"EI = NORMAL mode
+let &t_SI.="\e[5 q"     "SI = INSERT mode
+let &t_SR.="\e[3 q" "SR = REPLACE mode
+let &t_EI.="\e[1 q" "EI = NORMAL mode
 
-set nocompatible		" No Backward compatibility
+set nocompatible        " No Backward compatibility
 
 " Install Plug manager if not installed
 let vim_plug_path = expand('~/.config/nvim/autoload/plug.vim')
-if !filereadable(vim_plug_path) 
-	echo "Installing Vim-plug..."
-	silent !mkdir -p ~/.config/nvim/autoload
-	silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	let vim_plug_just_installed = 1
+if !filereadable(vim_plug_path)
+    echo "Installing Vim-plug..."
+    silent !mkdir -p ~/.config/nvim/autoload
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    let vim_plug_just_installed = 1
 endif
 " Load Vim-Plug if just installed
 if vim_plug_just_installed
     :execute 'source '.fnameescape(vim_plug_path)
 endif
 
-" Plug Management 
+" Plug Management
 " ============================================================================
 call plug#begin("~/.config/nvim/plugged")
 
-Plug 'vim-airline/vim-airline'				" Status bar Customization
-Plug 'vim-airline/vim-airline-themes'		" Themes for Status bar
-Plug 'scrooloose/nerdtree'					" File Manager
-Plug 'ryanoasis/vim-devicons'
+Plug 'vim-airline/vim-airline'              " Status bar Customization
+Plug 'vim-airline/vim-airline-themes'       " Themes for Status bar
+Plug 'scrooloose/nerdtree'                  " File Manager
 Plug 'neovimhaskell/haskell-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+" Markdown
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+" Window Management
+Plug 'paroxayte/vwm.vim'
+" Looks
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'chiel92/vim-autoformat'
+Plug 'ryanoasis/vim-devicons'
+
 call plug#end()
 
 if vim_plug_just_installed
@@ -87,34 +96,58 @@ let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
 let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 
+"=============================================================================
+" Markdown
+let g:vim_markdown_folding_style_pythonic = 1
+let g:vim_markdown_folding_level  = 6
+let g:vim_markdown_frontmatter = 1
+
+
+"=============================================================================
+" vim-autoformat'
+noremap <F3> :Autoformat<CR>
+let g:autoformat_autoindent = 1
+let g:autoformat_retab = 1
+let g:autoformat_remove_trailing_space = 1
+let g:formatterpath = ['/opt/miniconda3/bin/black']
+
+
 " ============================================================================
 " COC Settings
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
+    inoremap <silent><expr> <c-space> coc#refresh()
 else
-  inoremap <silent><expr> <c-@> coc#refresh()
+    inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+set signcolumn=yes
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -130,13 +163,13 @@ nmap <silent> gr <Plug>(coc-references)
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    elseif (coc#rpc#ready())
+        call CocActionAsync('doHover')
+    else
+        execute '!' . &keywordprg . " " . expand('<cword>')
+    endif
 endfunction
 
 
@@ -151,11 +184,11 @@ xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder.
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Applying codeAction to the selected region.
@@ -181,12 +214,12 @@ omap ac <Plug>(coc-classobj-a)
 
 " Remap <C-f> and <C-b> for scroll float windows/popups.
 if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+    nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+    inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+    vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+    vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
 " Use CTRL-S for selections ranges.
@@ -229,9 +262,14 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 " Python Settings
 " ================
+let g:loaded_python_provider=0    "Disabling Python 2"
 let g:python3_host_prog = '/opt/miniconda3/bin/python3'
 let g:python_host_prog = '/usr/bin/python'
+let python_highlight_all = 1
 
+" Ruby Settings
+" =============
+let g:loaded_ruby_provider = 0
 
 
 " ============================================================================
@@ -241,32 +279,33 @@ let g:python_host_prog = '/usr/bin/python'
 
 let mapleader=" "
 " Syntax highlighting
-filetype plugin indent on	
+filetype plugin indent on
 " General Set up
-set path+=**			" Search current directory recursively
-set wildmenu			" Display all matches
-set wildmode=list:longest	" Autocompletion
-set incsearch			" Incremental search
-set hlsearch			" Highlight search
-set nobackup			" No auto backup
-set noswapfile			" No swap
-set t_Co=256			" Set if term support 256 colours
-syntax on			" Syntax highlighting
-set mouse=nicr			" Enabling mouse scrolling
-set nu rnu 			" Line numbering
-set cursorline			" Highlight current line
-setlocal spell spelllang=en_gb	" British Dictionary
-set spell 
+set encoding=UTF-8
+set path+=**            " Search current directory recursively
+set wildmenu            " Display all matches
+set wildmode=list:longest   " Autocompletion
+set incsearch           " Incremental search
+set hlsearch            " Highlight search
+set nobackup            " No auto backup
+set noswapfile          " No swap
+set t_Co=256            " Set if term support 256 colours
+syntax on           " Syntax highlighting
+set mouse=nicr          " Enabling mouse scrolling
+set nu rnu          " Line numbering
+set cursorline          " Highlight current line
+setlocal spell spelllang=en_gb  " British Dictionary
+set spell
 set clipboard=unnamedplus
 set smartindent
 set showmatch
-set scrolloff=5			" Keep cursor 3 lines away from screen border
+set scrolloff=5         " Keep cursor 3 lines away from screen border
 set encoding=utf-8
 set laststatus=2
 
 " Text, Tab and indent related
 set smarttab
-set expandtab			" Ensure that tabs are converted to spaces
+set expandtab           " Ensure that tabs are converted to spaces
 set shiftwidth=4
 set tabstop=4
 set softtabstop=4
@@ -290,8 +329,8 @@ noremap <silent> <C-Right> :vertical resize -3<CR>
 noremap <silent> <C-Up> :resize +3<CR>
 noremap <silent> <C-Down> :resize -3<CR>
 " Change 2 split windows from vertical to horizontal and vice versa
-map <Leader>th	<C-w>t<C-w>H
-map <Leader>tk	<C-w>t<C-w>K
+map <Leader>th  <C-w>t<C-w>H
+map <Leader>tk  <C-w>t<C-w>K
 
 " Removes pipes | that act as separators on splits
 set fillchars+=vert:\
@@ -300,7 +339,7 @@ colorscheme gruvbox
 " hi Comment ctermfg=LightBlue
 
 
-" File type specific 
+" File type specific
 " ============================================================================
 " Markdown
 autocmd BufNewFile,BufRead *.md set filetype=markdown
@@ -308,7 +347,7 @@ autocmd BufWritePre *.py :%s/\s\+$//e
 
 
 "###############################################################################
-" Shortcuts 
+" Shortcuts
 "###############################################################################
 " General
 "=========
@@ -322,7 +361,7 @@ inoremap {<CR> {<CR>}<ESC>O
 inoremap {;<CR> {<CR>};<ESC>O
 
 
-" Python
+" Latex
 map <leader>p :silent :w<CR>:!latex "%:t:r" && bibtex "%:t:r" && pdflatex % && open -a Preview "%:t:r".pdf<CR>:redraw!<CR>
 
 " Reloading VIMRC Quickly"
@@ -352,21 +391,22 @@ map <leader>c :call CommentToggle()<CR>
 
 " for hex editing
 augroup Binary
-  au!
-  au BufReadPre  *.bin let &bin=1
-  au BufReadPost *.bin if &bin | %!xxd
-  au BufReadPost *.bin set ft=xxd | endif
-  au BufWritePre *.bin if &bin | %!xxd -r
-  au BufWritePre *.bin endif
-  au BufWritePost *.bin if &bin | %!xxd
-  au BufWritePost *.bin set nomod | endif
+    au!
+    au BufReadPre  *.bin let &bin=1
+    au BufReadPost *.bin if &bin | %!xxd
+    au BufReadPost *.bin set ft=xxd | endif
+    au BufWritePre *.bin if &bin | %!xxd -r
+    au BufWritePre *.bin endif
+    au BufWritePost *.bin if &bin | %!xxd
+    au BufWritePost *.bin set nomod | endif
 augroup END
 
 " Python Files
 au BufNewFile,BufRead *.py
-    \ set expandtab       |" replace tabs with spaces
-    \ set autoindent      |" copy indent when starting a new line
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
-    \ set foldmethod=indent
+            \ set expandtab       |" replace tabs with spaces
+            \ set autoindent      |" copy indent when starting a new line
+            \ set tabstop=4
+            \ set softtabstop=4
+            \ set shiftwidth=4
+            \ set foldmethod=indent
+au BufWrite *.py :Autoformat

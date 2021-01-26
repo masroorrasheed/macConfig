@@ -1,11 +1,13 @@
 
 alias ls='ls -G'
 alias l='ls -F'
-alias ll='ls -lahF'
+alias ll='ls -lhF'
+alias lll='ls -lahF'
 alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'
 alias gs='git status'
+
 
 #------------------------------
 # ShellFuncs
